@@ -4,6 +4,7 @@ import { Button, Navbar as NextNavbar, NavbarBrand, NavbarContent, NavbarItem, I
 import {useTheme} from "next-themes"
 import React, { useState, useEffect } from 'react'
 import LangSelector from '../buttons/LangSelector'
+import SignUpButton from '../buttons/SignUpButton'
 
 type Props = {}
 
@@ -18,7 +19,7 @@ export default function Navbar({}: Props) {
   if(!mounted) return null
   return (
     <NextNavbar>
-      <NavbarBrand className='gap-8'>
+      <NavbarBrand className='gap-3 sm:gap-8'>
         <p className="font-bold text-inherit">DISHES</p>
         <div className='flex items-center gap-3'>
           <Link
@@ -38,8 +39,18 @@ export default function Navbar({}: Props) {
           type="search"
         />
       </NavbarContent>
-      <NavbarContent justify="end">
-        <NavbarItem>
+      <NavbarContent
+        justify="end"
+        className='gap-1 sm:gap-4'
+      >
+        <NavbarItem className='flex'>
+          <Button
+            isIconOnly
+            variant='light'
+            className='flex sm:hidden'
+          >
+            <MagnifyingGlassIcon className='w-5 h-5'/>
+          </Button>
           <Button
             isIconOnly
             variant='light'
@@ -48,9 +59,7 @@ export default function Navbar({}: Props) {
           </Button>
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
-            Sign Up
-          </Button>
+          <SignUpButton/>
         </NavbarItem>
       </NavbarContent>
     </NextNavbar>

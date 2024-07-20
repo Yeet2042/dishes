@@ -1,5 +1,6 @@
 import { UserIcon, EnvelopeIcon, LockClosedIcon } from "@heroicons/react/24/solid"
-import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Checkbox, Link} from "@nextui-org/react"
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Checkbox, Link} from "@nextui-org/react"
+import axios from "axios"
 import React, { useEffect, useState } from 'react'
 
 type Props = {}
@@ -18,6 +19,43 @@ export default function SignUpButton({}: Props) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [conPassword, setConPassword] = useState("")
+  const [agreeTerms, setAgreeTerms] = useState(false)
+
+  const [isSignUpDisabled, setIsSignUpDisabled] = useState(true)
+  const [isSignInDisabled, setIsSignInDisabled] = useState(true)
+
+  const [isRegisterLoading, setIsRegisterLoading] = useState(false)
+  const [isLogIn, setIsLogIn] = useState(false)
+
+  const [isRegisterSuccess, setIsRegisterSuccess] = useState(false)
+  const [isLogInSuccess, setIsLogInSuccess] = useState(false)
+
+  const handleRegister = async () => {
+    setIsRegisterLoading(true)
+    await axios.post('/api/auth', {
+      username: username,
+      email: email,
+      password: password
+    }).then(res => {
+      if (res.data.success == true) {
+        setIsRegisterSuccess(true)
+      }
+    }).catch(error => {
+      console.log(error)
+      
+    }).finally(() => {
+      setIsRegisterLoading(false)
+    })
+  }
+
+  const handleLogIn = async () => {
+    console.log('OH YEAH')
+  }
+
+  useEffect(() => {
+    setIsSignUpDisabled(!(username !== "" && email !== "" && password !== "" && password == conPassword && agreeTerms == true))
+    setIsSignInDisabled(!(email !== "" && password !== ""))
+  }, [username, email, password, conPassword, agreeTerms])
 
   return (
     <>
@@ -33,6 +71,7 @@ export default function SignUpButton({}: Props) {
         isOpen={isSignUpOpen}
         onOpenChange={setIsSignUpOpen}
         size="md"
+        hideCloseButton
       >
         <ModalContent>
           {(onclose) => (
@@ -98,13 +137,20 @@ export default function SignUpButton({}: Props) {
                   value={conPassword}
                   onValueChange={setConPassword}
                 />
-                <Checkbox>
+                <Checkbox
+                  isSelected={agreeTerms}
+                  onValueChange={setAgreeTerms}
+                >
                   <p className="text-sm sm:text-base">Agree with <Link className="text-xs sm:text-base">Terms & Condition</Link></p>
                 </Checkbox>
                 <Button
                   className="p-5"
+                  isDisabled={isSignUpDisabled}
+                  color={isSignUpDisabled == true ? 'default' : 'success'}
+                  onPress={handleRegister}
+                  isLoading={isRegisterLoading}
                 >
-                  Register
+                  {isRegisterSuccess == true ? 'Success! 🎉' : 'Register'}
                 </Button>
                 <div className="flex justify-center gap-1">
                   <p className="text-xs sm:text-base">
@@ -155,6 +201,7 @@ export default function SignUpButton({}: Props) {
         isOpen={isSignInOpen}
         onOpenChange={setIsSignInOpen}
         size="md"
+        hideCloseButton
       >
         <ModalContent>
           {(onclose) => (
@@ -197,7 +244,12 @@ export default function SignUpButton({}: Props) {
                 <Link className="self-end text-sm">
                   Forgot Password?
                 </Link>
-                <Button className="p-5">
+                <Button
+                  className="p-5"
+                  isDisabled={isSignInDisabled}
+                  color={isSignInDisabled == true ? 'default' : 'success'}
+                  onPress={handleLogIn}
+                >
                   Log in
                 </Button>
                 <div className="flex justify-center gap-1">

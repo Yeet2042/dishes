@@ -1,9 +1,13 @@
 import { UserIcon, EnvelopeIcon, LockClosedIcon } from "@heroicons/react/24/solid"
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Checkbox, Link} from "@nextui-org/react"
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import React, { useEffect, useState } from 'react'
+import Confetti from "../particles/Confetti"
 
 type Props = {}
+
+const registerRoute = '/api/auth/register'
+const loginRoute = '/api/auth/login'
 
 export default function SignUpButton({}: Props) {
   const [isSignUpOpen, setIsSignUpOpen] = useState(false)
@@ -25,31 +29,76 @@ export default function SignUpButton({}: Props) {
   const [isSignInDisabled, setIsSignInDisabled] = useState(true)
 
   const [isRegisterLoading, setIsRegisterLoading] = useState(false)
-  const [isLogIn, setIsLogIn] = useState(false)
+  const [isLogInLoading, setIsLogInLoading] = useState(false)
 
   const [isRegisterSuccess, setIsRegisterSuccess] = useState(false)
   const [isLogInSuccess, setIsLogInSuccess] = useState(false)
 
+  const [isUsernameUsed, setIsUsernameUsed] = useState(false)
+  const [isEmailUsed, setIsEmailUsed] = useState(false)
+
   const handleRegister = async () => {
     setIsRegisterLoading(true)
-    await axios.post('/api/auth', {
-      username: username,
-      email: email,
-      password: password
-    }).then(res => {
-      if (res.data.success == true) {
+    try {
+      const res = await axios.post(registerRoute, {
+        username: username,
+        email: email,
+        password: password
+      })
+
+      if (res.status == 200) {
         setIsRegisterSuccess(true)
+        setIsRegisterLoading(false)
+        setIsUsernameUsed(false)
+        setIsEmailUsed(false)
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        closeSignUpModal()
+        openSignInModal()
       }
-    }).catch(error => {
-      console.log(error)
-      
-    }).finally(() => {
-      setIsRegisterLoading(false)
-    })
+    } catch (error: any | AxiosError) {
+      if (axios.isAxiosError(error)) {
+        setIsRegisterLoading(false)
+        switch (error.response?.status) {
+          case 409:
+            if (error.response?.data.message == 'both') {
+              setIsUsernameUsed(true)
+              setIsEmailUsed(true)
+            } else if (error.response?.data.message == 'username') {
+              setIsUsernameUsed(true)
+              setIsEmailUsed(false)
+            } else if (error.response?.data.message == 'email') {
+              setIsUsernameUsed(false)
+              setIsEmailUsed(true)
+            }
+            break;
+          case 500:
+            alert(error.response?.data.message)
+            break;
+          default:
+            alert(error)
+            break;
+        }
+      }
+    }
   }
 
   const handleLogIn = async () => {
-    console.log('OH YEAH')
+    setIsLogInLoading(true)
+    try {
+      const res = await axios.post(loginRoute, {
+        email: email,
+        password: password
+      })
+      if (res.status == 200) {
+        setIsLogInSuccess(true)
+        setIsLogInLoading(false)
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        closeSignInModal()
+        window.location.reload()
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
@@ -76,16 +125,16 @@ export default function SignUpButton({}: Props) {
         <ModalContent>
           {(onclose) => (
             <div className="mx-4">
-              <ModalHeader className="flex-col my-4 sm:my-8">
+              <ModalHeader className="flex-col my-4 sm:my-8 md:my-4">
                 <h1
-                  className="font-bold text-2xl sm:text-3xl"
+                  className="font-bold text-2xl sm:text-3xl md:text-2xl"
                 >
                   Sign Up
                 </h1>
                 <p className="text-sm font-normal">Sign up to access Dishes!</p>
               </ModalHeader>
               <ModalBody
-                className="gap-4"
+                className="gap-4 md:gap-2"
               >
                 <Input
                   type="text"
@@ -96,6 +145,8 @@ export default function SignUpButton({}: Props) {
                   startContent={
                     <UserIcon className="w-5 h-5"/>
                   }
+                  isInvalid={isUsernameUsed ? true : false}
+                  errorMessage="Username is already in use"
                   value={username}
                   onValueChange={setUsername}
                 />
@@ -108,6 +159,8 @@ export default function SignUpButton({}: Props) {
                   startContent={
                     <EnvelopeIcon className="w-5 h-5"/>
                   }
+                  isInvalid={isEmailUsed ? true : false}
+                  errorMessage="Email is already in use"
                   value={email}
                   onValueChange={setEmail}
                 />
@@ -150,6 +203,7 @@ export default function SignUpButton({}: Props) {
                   onPress={handleRegister}
                   isLoading={isRegisterLoading}
                 >
+                  {isRegisterSuccess && <Confetti/>}
                   {isRegisterSuccess == true ? 'Success! 🎉' : 'Register'}
                 </Button>
                 <div className="flex justify-center gap-1">
@@ -249,8 +303,10 @@ export default function SignUpButton({}: Props) {
                   isDisabled={isSignInDisabled}
                   color={isSignInDisabled == true ? 'default' : 'success'}
                   onPress={handleLogIn}
+                  isLoading={isLogInLoading}
                 >
-                  Log in
+                  {isLogInSuccess && <Confetti/>}
+                  {isLogInSuccess == true ? 'Success! 🎉' : 'Log In'}
                 </Button>
                 <div className="flex justify-center gap-1">
                   <p className="text-xs sm:text-base">

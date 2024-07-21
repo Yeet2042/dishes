@@ -3,15 +3,23 @@ import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input,
 import axios, { AxiosError } from "axios"
 import React, { useEffect, useState } from 'react'
 import Confetti from "../particles/Confetti"
+import {useTranslations} from 'next-intl'
 
 type Props = {}
 
 const registerRoute = '/api/auth/register'
 const loginRoute = '/api/auth/login'
+const OTPRoute = '/api/auth/otp'
 
 export default function SignUpButton({}: Props) {
+  const tButtons = useTranslations('Buttons')
+  const tModals = useTranslations('Modals')
+  const tSuccess = useTranslations('Success')
+  const tError = useTranslations('Error')
+
   const [isSignUpOpen, setIsSignUpOpen] = useState(false)
   const [isSignInOpen, setIsSignInOpen] = useState(false)
+  const [isOTPOpen, setIsOTPOpen] = useState(false)
 
   const openSignUpModal = () => setIsSignUpOpen(true)
   const closeSignUpModal = () => setIsSignUpOpen(false)
@@ -19,23 +27,37 @@ export default function SignUpButton({}: Props) {
   const openSignInModal = () => setIsSignInOpen(true)
   const closeSignInModal = () => setIsSignInOpen(false)
 
+  const openOTPModal = () => setIsOTPOpen(true)
+  const closeOTPModal = () => setIsOTPOpen(false)
+
   const [username, setUsername] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [conPassword, setConPassword] = useState("")
   const [agreeTerms, setAgreeTerms] = useState(false)
 
+  const [otp1, setOtp1] = useState("")
+  const [otp2, setOtp2] = useState("")
+  const [otp3, setOtp3] = useState("")
+  const [otp4, setOtp4] = useState("")
+  const [otp5, setOtp5] = useState("")
+  const [otp6, setOtp6] = useState("")
+
   const [isSignUpDisabled, setIsSignUpDisabled] = useState(true)
   const [isSignInDisabled, setIsSignInDisabled] = useState(true)
+  const [isOTPDisabled, setIsOTPDisabled] = useState(true)
 
   const [isRegisterLoading, setIsRegisterLoading] = useState(false)
   const [isLogInLoading, setIsLogInLoading] = useState(false)
+  const [isOTPLoading, setIsOTPLoading] = useState(false)
 
   const [isRegisterSuccess, setIsRegisterSuccess] = useState(false)
   const [isLogInSuccess, setIsLogInSuccess] = useState(false)
+  const [isOTPSuccess, setIsOTPSuccess] = useState(false)
 
   const [isUsernameUsed, setIsUsernameUsed] = useState(false)
   const [isEmailUsed, setIsEmailUsed] = useState(false)
+  const [isOTPInvalid, setIsOTPInvalid] = useState(false)
 
   const handleRegister = async () => {
     setIsRegisterLoading(true)
@@ -53,7 +75,7 @@ export default function SignUpButton({}: Props) {
         setIsEmailUsed(false)
         await new Promise(resolve => setTimeout(resolve, 1000))
         closeSignUpModal()
-        openSignInModal()
+        openOTPModal()
       }
     } catch (error: any | AxiosError) {
       if (axios.isAxiosError(error)) {
@@ -70,6 +92,41 @@ export default function SignUpButton({}: Props) {
               setIsUsernameUsed(false)
               setIsEmailUsed(true)
             }
+            break;
+          case 500:
+            alert(error.response?.data.message)
+            break;
+          default:
+            alert(error)
+            break;
+        }
+      }
+    }
+  }
+
+  const handleOTP = async () => {
+    setIsOTPLoading(true)
+    const otp = otp1 + otp2 + otp3 + otp4 + otp5 + otp6
+    try {
+      const res = await axios.post(OTPRoute, {
+        otp: otp
+      })
+      if (res.status == 200) {
+        setIsOTPSuccess(true)
+        setIsOTPLoading(false)
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        closeOTPModal()
+        openSignInModal()
+      }
+    } catch (error: any | AxiosError) {
+      if (axios.isAxiosError(error)) {
+        setIsOTPLoading(false)
+        switch (error.response?.status) {
+          case 401:
+            setIsOTPInvalid(true)
+            break;
+          case 403:
+            alert(error.response?.data.message)
             break;
           case 500:
             alert(error.response?.data.message)
@@ -104,7 +161,8 @@ export default function SignUpButton({}: Props) {
   useEffect(() => {
     setIsSignUpDisabled(!(username !== "" && email !== "" && password !== "" && password == conPassword && agreeTerms == true))
     setIsSignInDisabled(!(email !== "" && password !== ""))
-  }, [username, email, password, conPassword, agreeTerms])
+    setIsOTPDisabled(!(otp1 !== "" && otp2 !== "" && otp3 !== "" && otp4 !== "" && otp5 !== "" && otp6 !== ""))
+  }, [username, email, password, conPassword, agreeTerms, otp1, otp2, otp3, otp4, otp5, otp6])
 
   return (
     <>
@@ -113,7 +171,7 @@ export default function SignUpButton({}: Props) {
         variant="flat"
         onClick={openSignUpModal}
       >
-        Sign Up
+        {tButtons('signUp')}
       </Button>
       {/* Sign Up modal */}
       <Modal
@@ -129,16 +187,16 @@ export default function SignUpButton({}: Props) {
                 <h1
                   className="font-bold text-2xl sm:text-3xl md:text-2xl"
                 >
-                  Sign Up
+                  {tButtons('signUp')}
                 </h1>
-                <p className="text-sm font-normal">Sign up to access Dishes!</p>
+                <p className="text-sm font-normal">{tModals('titleSignUp')}</p>
               </ModalHeader>
               <ModalBody
                 className="gap-4 md:gap-2"
               >
                 <Input
                   type="text"
-                  label="Username"
+                  label={tModals('username')}
                   variant="bordered"
                   labelPlacement="outside"
                   placeholder="Example007"
@@ -146,13 +204,13 @@ export default function SignUpButton({}: Props) {
                     <UserIcon className="w-5 h-5"/>
                   }
                   isInvalid={isUsernameUsed ? true : false}
-                  errorMessage="Username is already in use"
+                  errorMessage={tError('usernameExited')}
                   value={username}
                   onValueChange={setUsername}
                 />
                 <Input
                   type="email"
-                  label="Email"
+                  label={tModals('email')}
                   variant="bordered"
                   labelPlacement="outside"
                   placeholder="example@dishes.com"
@@ -160,13 +218,13 @@ export default function SignUpButton({}: Props) {
                     <EnvelopeIcon className="w-5 h-5"/>
                   }
                   isInvalid={isEmailUsed ? true : false}
-                  errorMessage="Email is already in use"
+                  errorMessage={tError('emailExited')}
                   value={email}
                   onValueChange={setEmail}
                 />
                 <Input
                   type="password"
-                  label="Password"
+                  label={tModals('password')}
                   variant="bordered"
                   labelPlacement="outside"
                   placeholder="••••••••"
@@ -178,7 +236,7 @@ export default function SignUpButton({}: Props) {
                 />
                 <Input
                   type="password"
-                  label="Confirm Password"
+                  label={tModals('conPassword')}
                   variant="bordered"
                   labelPlacement="outside"
                   placeholder="••••••••"
@@ -186,7 +244,7 @@ export default function SignUpButton({}: Props) {
                     <LockClosedIcon className="w-5 h-5"/>
                   }
                   isInvalid={password == conPassword ? false : true}
-                  errorMessage="Password does not match"
+                  errorMessage={tError('passNotMatch')}
                   value={conPassword}
                   onValueChange={setConPassword}
                 />
@@ -194,7 +252,7 @@ export default function SignUpButton({}: Props) {
                   isSelected={agreeTerms}
                   onValueChange={setAgreeTerms}
                 >
-                  <p className="text-sm sm:text-base">Agree with <Link className="text-xs sm:text-base">Terms & Condition</Link></p>
+                  <p className="text-sm sm:text-base">{tModals('agreeWith')} <Link className="text-xs sm:text-base">{tModals('terms')}</Link></p>
                 </Checkbox>
                 <Button
                   className="p-5"
@@ -204,11 +262,11 @@ export default function SignUpButton({}: Props) {
                   isLoading={isRegisterLoading}
                 >
                   {isRegisterSuccess && <Confetti/>}
-                  {isRegisterSuccess == true ? 'Success! 🎉' : 'Register'}
+                  {isRegisterSuccess == true ? tSuccess('true') : tButtons('register')}
                 </Button>
                 <div className="flex justify-center gap-1">
                   <p className="text-xs sm:text-base">
-                    Already have an account?
+                    {tModals('alreadyAcc')}
                   </p>
                   <Link
                     className="text-xs sm:text-base"
@@ -217,14 +275,14 @@ export default function SignUpButton({}: Props) {
                       openSignInModal()
                     }}
                   >
-                      Sign In
+                      {tButtons('signIn')}
                   </Link>
                 </div>
               </ModalBody>
               <ModalFooter className="flex-col items-center gap-4 mb-4 sm:mb-8">
                 <div className="flex items-center w-full">
                   <div className="border border-default-400 w-full h-px"></div>
-                  <div className="px-2">or</div>
+                  <div className="px-2">{tModals('or')}</div>
                   <div className="border border-default-400 w-full h-px"></div>
                 </div>
                 <div className="flex gap-4">
@@ -264,16 +322,16 @@ export default function SignUpButton({}: Props) {
                 <h1
                   className="font-bold text-2xl sm:text-3xl"
                 >
-                  Sign In
+                  {tButtons('signIn')}
                 </h1>
-                <p className="text-sm font-normal">Sign In to access Dishes!</p>
+                <p className="text-sm font-normal">{tModals('titleSignIn')}</p>
               </ModalHeader>
               <ModalBody
                 className="gap-4"
               >
                 <Input
                   type="email"
-                  label="Email"
+                  label={tModals('email')}
                   variant="bordered"
                   labelPlacement="outside"
                   placeholder="example@dishes.com"
@@ -285,7 +343,7 @@ export default function SignUpButton({}: Props) {
                 />
                 <Input
                   type="password"
-                  label="Password"
+                  label={tModals('password')}
                   variant="bordered"
                   labelPlacement="outside"
                   placeholder="••••••••"
@@ -296,7 +354,7 @@ export default function SignUpButton({}: Props) {
                   onValueChange={setPassword}
                 />
                 <Link className="self-end text-sm">
-                  Forgot Password?
+                  {tModals('forgotPass')}
                 </Link>
                 <Button
                   className="p-5"
@@ -306,11 +364,11 @@ export default function SignUpButton({}: Props) {
                   isLoading={isLogInLoading}
                 >
                   {isLogInSuccess && <Confetti/>}
-                  {isLogInSuccess == true ? 'Success! 🎉' : 'Log In'}
+                  {isLogInSuccess == true ? tSuccess('true') : tButtons('logIn')}
                 </Button>
                 <div className="flex justify-center gap-1">
                   <p className="text-xs sm:text-base">
-                    Does not have an account?
+                    {tModals('nothaveAcc')}
                   </p>
                   <Link
                     className="text-sm sm:text-base"
@@ -319,14 +377,14 @@ export default function SignUpButton({}: Props) {
                       openSignUpModal()
                     }}
                   >
-                      Sign Up
+                      {tButtons('signUp')}
                   </Link>
                 </div>
               </ModalBody>
               <ModalFooter className="flex-col items-center gap-4 mb-4 sm:mb-8">
                 <div className="flex items-center w-full">
                   <div className="border border-default-400 w-full h-px"></div>
-                  <div className="px-2">or</div>
+                  <div className="px-2">{tModals('or')}</div>
                   <div className="border border-default-400 w-full h-px"></div>
                 </div>
                 <div className="flex gap-4">
@@ -345,6 +403,117 @@ export default function SignUpButton({}: Props) {
                       <path d="M17.791,46.836C18.502,46.53,19,45.823,19,45v-5.4c0-0.197,0.016-0.402,0.041-0.61C19.027,38.994,19.014,38.997,19,39 c0,0-3,0-3.6,0c-1.5,0-2.8-0.6-3.4-1.8c-0.7-1.3-1-3.5-2.8-4.7C8.9,32.3,9.1,32,9.7,32c0.6,0.1,1.9,0.9,2.7,2c0.9,1.1,1.8,2,3.4,2 c2.487,0,3.82-0.125,4.622-0.555C21.356,34.056,22.649,33,24,33v-0.025c-5.668-0.182-9.289-2.066-10.975-4.975 c-3.665,0.042-6.856,0.405-8.677,0.707c-0.058-0.327-0.108-0.656-0.151-0.987c1.797-0.296,4.843-0.647,8.345-0.714 c-0.112-0.276-0.209-0.559-0.291-0.849c-3.511-0.178-6.541-0.039-8.187,0.097c-0.02-0.332-0.047-0.663-0.051-0.999 c1.649-0.135,4.597-0.27,8.018-0.111c-0.079-0.5-0.13-1.011-0.13-1.543c0-1.7,0.6-3.5,1.7-5c-0.5-1.7-1.2-5.3,0.2-6.6 c2.7,0,4.6,1.3,5.5,2.1C21,13.4,22.9,13,25,13s4,0.4,5.6,1.1c0.9-0.8,2.8-2.1,5.5-2.1c1.5,1.4,0.7,5,0.2,6.6c1.1,1.5,1.7,3.2,1.6,5 c0,0.484-0.045,0.951-0.11,1.409c3.499-0.172,6.527-0.034,8.204,0.102c-0.002,0.337-0.033,0.666-0.051,0.999 c-1.671-0.138-4.775-0.28-8.359-0.089c-0.089,0.336-0.197,0.663-0.325,0.98c3.546,0.046,6.665,0.389,8.548,0.689 c-0.043,0.332-0.093,0.661-0.151,0.987c-1.912-0.306-5.171-0.664-8.879-0.682C35.112,30.873,31.557,32.75,26,32.969V33 c2.6,0,5,3.9,5,6.6V45c0,0.823,0.498,1.53,1.209,1.836C41.37,43.804,48,35.164,48,25C48,12.318,37.683,2,25,2S2,12.318,2,25 C2,35.164,8.63,43.804,17.791,46.836z"></path>
                     </svg>
                   </Button>
+                </div>
+              </ModalFooter>
+            </div>
+          )}
+        </ModalContent>
+      </Modal>
+
+      {/* OTP modal */}
+      <Modal
+        isOpen={isOTPOpen}
+        onOpenChange={setIsOTPOpen}
+        size="md"
+        hideCloseButton
+        isDismissable={false}
+
+      >
+        <ModalContent>
+          {(onclose) => (
+            <div className="mx-4">
+              <ModalHeader className="flex-col mt-8 gap-4">
+                <h1
+                  className="font-bold text-2xl sm:text-3xl"
+                >
+                  {tModals('headerOTP')}
+                </h1>
+                <div className="bg-green-100 p-4 rounded-md">
+                  <p className="text-sm font-normal text-success-700">
+                    {tModals('titleOTP')} {email}
+                  </p>
+                </div>
+              </ModalHeader>
+              <ModalBody
+                className="gap-6"
+              >
+                <div className="flex gap-4">
+                  <Input
+                    type="text"
+                    variant="bordered"
+                    value={otp1}
+                    onValueChange={setOtp1}
+                    size="lg"
+                    maxLength={1}
+                    isInvalid={isOTPInvalid ? true : false}
+                  />
+                  <Input
+                    type="text"
+                    variant="bordered"
+                    value={otp2}
+                    onValueChange={setOtp2}
+                    size="lg"
+                    maxLength={1}
+                    isInvalid={isOTPInvalid ? true : false}
+                  />
+                  <Input
+                    type="text"
+                    variant="bordered"
+                    value={otp3}
+                    onValueChange={setOtp3}
+                    size="lg"
+                    maxLength={1}
+                    isInvalid={isOTPInvalid ? true : false}
+                  />
+                  <Input
+                    type="text"
+                    variant="bordered"
+                    value={otp4}
+                    onValueChange={setOtp4}
+                    size="lg"
+                    maxLength={1}
+                    isInvalid={isOTPInvalid ? true : false}
+                  />
+                  <Input
+                    type="text"
+                    variant="bordered"
+                    value={otp5}
+                    onValueChange={setOtp5}
+                    size="lg"
+                    maxLength={1}
+                    isInvalid={isOTPInvalid ? true : false}
+                  />
+                  <Input
+                    type="text"
+                    variant="bordered"
+                    value={otp6}
+                    onValueChange={setOtp6}
+                    size="lg"
+                    maxLength={1}
+                    isInvalid={isOTPInvalid ? true : false}
+                  />
+                </div>
+                <Button
+                  className="p-5"
+                  isDisabled={isOTPDisabled}
+                  color={isOTPDisabled == true ? 'default' : 'success'}
+                  onPress={handleOTP}
+                  isLoading={isOTPLoading}
+                >
+                  {isOTPSuccess && <Confetti/>}
+                  {isOTPSuccess == true ? tSuccess('true') : tButtons('submit')}
+                </Button>
+              </ModalBody>
+              <ModalFooter className="flex-col items-center mb-4">
+                <div className="flex justify-center gap-1">
+                  <p className="text-xs sm:text-base">
+                    {tModals('notHaveCode')}
+                  </p>
+                  <Link
+                    className="text-sm sm:text-base"
+                  >
+                      {tButtons('requestAgain')}
+                  </Link>
                 </div>
               </ModalFooter>
             </div>

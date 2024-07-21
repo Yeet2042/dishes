@@ -22,12 +22,13 @@ export default function Navbar({}: Props) {
       <NavbarBrand className='gap-3 sm:gap-8'>
         <p className="font-bold text-inherit">DISHES</p>
         <div className='flex items-center gap-3'>
-          <Link
-            color='foreground'
+          <Button
+            isIconOnly
+            variant='light'
             onPress={() => theme == 'dark' ? setTheme('light') : setTheme('dark')}
           >
             {theme == 'dark' ? <MoonIcon className='h-5 w-5'/> : <SunIcon className='h-5 w-5'/>}
-          </Link>
+          </Button>
           <LangSelector/>
         </div>
       </NavbarBrand>

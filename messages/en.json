@@ -1,0 +1,39 @@
+{
+  "HomePage": {
+    "title": "Hello world!"
+  },
+  "Buttons": {
+    "signUp": "Sign Up",
+    "signIn": "Sign In",
+    "register": "Register",
+    "logIn": "Log In",
+    "submit": "Submit",
+    "requestAgain": "Request again"
+  },
+  "Modals": {
+    "headerOTP": "OTP Verification",
+    "titleSignUp": "Sign up to access Dishes!",
+    "titleSignIn": "Sign in to access Dishes!",
+    "titleOTP": "We've sent a verification code to your email -",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "conPassword": "Confirm Password",
+    "agreeWith": "Agree with",
+    "terms": "Terms & Condition",
+    "alreadyAcc": "Already have an account?",
+    "nothaveAcc": "Does not have an account?",
+    "or": "or",
+    "forgotPass": "Forgot Password?",
+    "notHaveCode": "Did not receive code?"
+  },
+  "Success": {
+    "true": "Success! 🎉",
+    "false": "Fail! ❌"
+  },
+  "Error": {
+    "usernameExited": "Username is already in use!",
+    "emailExited": "Email is already in use!",
+    "passNotMatch": "Password does not match!"
+  }
+}

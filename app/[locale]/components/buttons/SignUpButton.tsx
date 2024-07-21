@@ -57,6 +57,8 @@ export default function SignUpButton({}: Props) {
 
   const [isUsernameUsed, setIsUsernameUsed] = useState(false)
   const [isEmailUsed, setIsEmailUsed] = useState(false)
+  const [isEmailInvalid, setIsEmailInvalid] = useState(false)
+  const [isPasswordInvalid, setIsPasswordInvalid] = useState(false)
   const [isOTPInvalid, setIsOTPInvalid] = useState(false)
 
   const handleRegister = async () => {
@@ -149,12 +151,36 @@ export default function SignUpButton({}: Props) {
       if (res.status == 200) {
         setIsLogInSuccess(true)
         setIsLogInLoading(false)
+        setIsEmailInvalid(false)
+        setIsPasswordInvalid(false)
         await new Promise(resolve => setTimeout(resolve, 1000))
         closeSignInModal()
         window.location.reload()
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error: any | AxiosError) {
+      if (axios.isAxiosError(error)) {
+        setIsLogInLoading(false)
+        switch (error.response?.status) {
+          case 401:
+            if (error.response?.data.message == 'email') {
+              setIsEmailInvalid(true)
+              setIsPasswordInvalid(true)
+            } else {
+              setIsEmailInvalid(false)
+              setIsPasswordInvalid(true)
+            }
+            break;
+          case 403:
+            alert(error.response?.data.message)
+            break;
+          case 500:
+            alert(error.response?.data.message)
+            break;
+          default:
+            alert(error)
+            break;
+        }
+      }
     }
   }
 
@@ -338,6 +364,8 @@ export default function SignUpButton({}: Props) {
                   startContent={
                     <EnvelopeIcon className="w-5 h-5"/>
                   }
+                  isInvalid={isEmailInvalid ? true : false}
+                  errorMessage={tError('emailInvalid')}
                   value={email}
                   onValueChange={setEmail}
                 />
@@ -350,6 +378,8 @@ export default function SignUpButton({}: Props) {
                   startContent={
                     <LockClosedIcon className="w-5 h-5"/>
                   }
+                  isInvalid={isPasswordInvalid ? true : false}
+                  errorMessage={tError('PasswordInvalid')}
                   value={password}
                   onValueChange={setPassword}
                 />
@@ -417,7 +447,7 @@ export default function SignUpButton({}: Props) {
         size="md"
         hideCloseButton
         isDismissable={false}
-
+        isKeyboardDismissDisabled={true}
       >
         <ModalContent>
           {(onclose) => (
@@ -437,61 +467,64 @@ export default function SignUpButton({}: Props) {
               <ModalBody
                 className="gap-6"
               >
-                <div className="flex gap-4">
-                  <Input
-                    type="text"
-                    variant="bordered"
-                    value={otp1}
-                    onValueChange={setOtp1}
-                    size="lg"
-                    maxLength={1}
-                    isInvalid={isOTPInvalid ? true : false}
-                  />
-                  <Input
-                    type="text"
-                    variant="bordered"
-                    value={otp2}
-                    onValueChange={setOtp2}
-                    size="lg"
-                    maxLength={1}
-                    isInvalid={isOTPInvalid ? true : false}
-                  />
-                  <Input
-                    type="text"
-                    variant="bordered"
-                    value={otp3}
-                    onValueChange={setOtp3}
-                    size="lg"
-                    maxLength={1}
-                    isInvalid={isOTPInvalid ? true : false}
-                  />
-                  <Input
-                    type="text"
-                    variant="bordered"
-                    value={otp4}
-                    onValueChange={setOtp4}
-                    size="lg"
-                    maxLength={1}
-                    isInvalid={isOTPInvalid ? true : false}
-                  />
-                  <Input
-                    type="text"
-                    variant="bordered"
-                    value={otp5}
-                    onValueChange={setOtp5}
-                    size="lg"
-                    maxLength={1}
-                    isInvalid={isOTPInvalid ? true : false}
-                  />
-                  <Input
-                    type="text"
-                    variant="bordered"
-                    value={otp6}
-                    onValueChange={setOtp6}
-                    size="lg"
-                    maxLength={1}
-                    isInvalid={isOTPInvalid ? true : false}
-                  />
+                <div>
+                  <div className="flex gap-4">
+                    <Input
+                      type="text"
+                      variant="bordered"
+                      value={otp1}
+                      onValueChange={setOtp1}
+                      size="lg"
+                      maxLength={1}
+                      isInvalid={isOTPInvalid ? true : false}
+                    />
+                    <Input
+                      type="text"
+                      variant="bordered"
+                      value={otp2}
+                      onValueChange={setOtp2}
+                      size="lg"
+                      maxLength={1}
+                      isInvalid={isOTPInvalid ? true : false}
+                    />
+                    <Input
+                      type="text"
+                      variant="bordered"
+                      value={otp3}
+                      onValueChange={setOtp3}
+                      size="lg"
+                      maxLength={1}
+                      isInvalid={isOTPInvalid ? true : false}
+                    />
+                    <Input
+                      type="text"
+                      variant="bordered"
+                      value={otp4}
+                      onValueChange={setOtp4}
+                      size="lg"
+                      maxLength={1}
+                      isInvalid={isOTPInvalid ? true : false}
+                    />
+                    <Input
+                      type="text"
+                      variant="bordered"
+                      value={otp5}
+                      onValueChange={setOtp5}
+                      size="lg"
+                      maxLength={1}
+                      isInvalid={isOTPInvalid ? true : false}
+                    />
+                    <Input
+                      type="text"
+                      variant="bordered"
+                      value={otp6}
+                      onValueChange={setOtp6}
+                      size="lg"
+                      maxLength={1}
+                      isInvalid={isOTPInvalid ? true : false}
+                    />
+                  </div>
+                  {isOTPInvalid && <p className="text-xs text-danger mt-2">{tError('otpInvalid')}</p>}
                 </div>
                 <Button
                   className="p-5"

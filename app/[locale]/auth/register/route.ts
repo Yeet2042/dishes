@@ -20,8 +20,11 @@ export async function POST(req: Request) {
       return Response.json({
         message: "email"
       }, { status: 409 })
+    } else if (username == "" || email == "" || password == "") {
+      return Response.json({
+        message: "Invalid Format"
+      }, { status: 400 })
     }
-
     return Response.json({
       message: 'ok',
     }, { status: 200 })

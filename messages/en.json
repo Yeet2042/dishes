@@ -34,6 +34,9 @@
   "Error": {
     "usernameExited": "Username is already in use!",
     "emailExited": "Email is already in use!",
-    "passNotMatch": "Password does not match!"
+    "emailInvalid": "Invalid Email!",
+    "PasswordInvalid": "Invalid Password!",
+    "passNotMatch": "Password does not match!",
+    "otpInvalid": "Invalid OTP!"
   }
 }

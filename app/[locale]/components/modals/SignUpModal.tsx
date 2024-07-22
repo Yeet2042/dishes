@@ -110,7 +110,7 @@ export default function SignUpModal({ isSignUpOpen, setIsSignUpOpen, setIsOTPOpe
                 >
                   {tButtons('signUp')}
                 </h1>
-                <p className="text-sm font-normal">{tModals('titleSignUp')}</p>
+                <p className="text-sm font-normal text-primary">{tModals('titleSignUp')}</p>
               </ModalHeader>
               <ModalBody className="flex flex-col gap-4">
                 <div className="flex flex-col gap-2">

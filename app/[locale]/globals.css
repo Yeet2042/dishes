@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-canvas {
+/* canvas {
   position: fixed;
   top: 0;
   left: 0;
@@ -10,4 +10,4 @@ canvas {
   height: 100%;
   pointer-events: none;
   z-index: 9999;
-}
+} */

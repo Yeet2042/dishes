@@ -22,7 +22,9 @@
     "react": "^18",
     "react-canvas-confetti": "^2.0.7",
     "react-dom": "^18",
-    "react-i18next": "^15.0.0"
+    "react-i18next": "^15.0.0",
+    "react-icon-cloud": "^4.1.4",
+    "simple-icons": "^13.2.0"
   },
   "devDependencies": {
     "@types/node": "^20",

@@ -89,10 +89,10 @@ export default function OTPModal({ isOTPOpen, setIsOTPOpen, otpEmail, setIsSignI
       >
         <ModalContent>
           {(onclose) => (
-            <div className="mx-4">
-              <ModalHeader className="flex-col mt-8 gap-4">
+            <div className="flex flex-col mx-4 my-6 gap-4">
+              <ModalHeader className="flex-col gap-1">
                 <h1
-                  className="font-bold text-2xl sm:text-3xl"
+                  className="font-bold text-3xl"
                 >
                   {tModals('headerOTP')}
                 </h1>
@@ -102,9 +102,7 @@ export default function OTPModal({ isOTPOpen, setIsOTPOpen, otpEmail, setIsSignI
                   </p>
                 </div>
               </ModalHeader>
-              <ModalBody
-                className="gap-6"
-              >
+              <ModalBody className="flex flex-col gap-4">
                 <div>
                   <div className="flex gap-4">
                     <Input
@@ -175,9 +173,9 @@ export default function OTPModal({ isOTPOpen, setIsOTPOpen, otpEmail, setIsSignI
                   {isOTPSuccess == true ? tSuccess('true') : tButtons('submit')}
                 </Button>
               </ModalBody>
-              <ModalFooter className="flex-col items-center mb-4">
+              <ModalFooter className="flex-col items-center">
                 <div className="flex justify-center gap-1">
-                  <p className="text-xs sm:text-base">
+                  <p className="text-sm sm:text-base">
                     {tModals('notHaveCode')}
                   </p>
                   <Link

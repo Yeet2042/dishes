@@ -83,46 +83,46 @@ export default function SignInModal({ isSignInOpen, setIsSignInOpen, setIsSignUp
       >
         <ModalContent>
           {(onclose) => (
-            <div className="mx-4">
-              <ModalHeader className="flex-col my-4 sm:my-8">
+            <div className="flex flex-col mx-4 my-6 gap-4">
+              <ModalHeader className="flex-col gap-1">
                 <h1
-                  className="font-bold text-2xl sm:text-3xl"
+                  className="font-bold text-3xl"
                 >
                   {tButtons('signIn')}
                 </h1>
                 <p className="text-sm font-normal">{tModals('titleSignIn')}</p>
               </ModalHeader>
-              <ModalBody
-                className="gap-4"
-              >
-                <Input
-                  type="email"
-                  label={tModals('email')}
-                  variant="bordered"
-                  labelPlacement="outside"
-                  placeholder="example@dishes.com"
-                  startContent={
-                    <EnvelopeIcon className="w-5 h-5"/>
-                  }
-                  isInvalid={isEmailInvalid ? true : false}
-                  errorMessage={tError('emailInvalid')}
-                  value={email}
-                  onValueChange={setEmail}
-                />
-                <Input
-                  type="password"
-                  label={tModals('password')}
-                  variant="bordered"
-                  labelPlacement="outside"
-                  placeholder="••••••••"
-                  startContent={
-                    <LockClosedIcon className="w-5 h-5"/>
-                  }
-                  isInvalid={isPasswordInvalid ? true : false}
-                  errorMessage={tError('PasswordInvalid')}
-                  value={password}
-                  onValueChange={setPassword}
-                />
+              <ModalBody className="flex flex-col gap-4">
+                <div className="flex flex-col gap-2">
+                  <Input
+                    type="email"
+                    label={tModals('email')}
+                    variant="bordered"
+                    labelPlacement="outside"
+                    placeholder="example@dishes.com"
+                    startContent={
+                      <EnvelopeIcon className="w-5 h-5"/>
+                    }
+                    isInvalid={isEmailInvalid ? true : false}
+                    errorMessage={tError('emailInvalid')}
+                    value={email}
+                    onValueChange={setEmail}
+                  />
+                  <Input
+                    type="password"
+                    label={tModals('password')}
+                    variant="bordered"
+                    labelPlacement="outside"
+                    placeholder="••••••••"
+                    startContent={
+                      <LockClosedIcon className="w-5 h-5"/>
+                    }
+                    isInvalid={isPasswordInvalid ? true : false}
+                    errorMessage={tError('PasswordInvalid')}
+                    value={password}
+                    onValueChange={setPassword}
+                  />
+                </div>
                 <Link
                   className="self-end text-sm"
                   onPress={() => {
@@ -143,7 +143,7 @@ export default function SignInModal({ isSignInOpen, setIsSignInOpen, setIsSignUp
                   {isSuccess == true ? tSuccess('true') : tButtons('logIn')}
                 </Button>
                 <div className="flex justify-center gap-1">
-                  <p className="text-xs sm:text-base">
+                  <p className="text-sm sm:text-base">
                     {tModals('nothaveAcc')}
                   </p>
                   <Link
@@ -157,7 +157,7 @@ export default function SignInModal({ isSignInOpen, setIsSignInOpen, setIsSignUp
                   </Link>
                 </div>
               </ModalBody>
-              <ModalFooter className="flex-col items-center gap-4 mb-4 sm:mb-8">
+              <ModalFooter className="flex-col items-center gap-4">
                 <div className="flex items-center w-full">
                   <div className="border border-default-400 w-full h-px"></div>
                   <div className="px-2">{tModals('or')}</div>

@@ -74,11 +74,11 @@ export default function ForgotPassModal({ isForgotPassOpen, setIsForgotPassOpen,
       >
         <ModalContent>
           {(onclose) => (
-            <div className="mx-4">
-              <ModalHeader className="flex-col my-4 sm:my-8 gap-4">
-                <div>
+            <div className="flex flex-col mx-4 my-6 gap-4">
+              <ModalHeader className="flex-col gap-4">
+                <div className="flex flex-col gap-1">
                   <h1
-                    className="font-bold text-2xl sm:text-3xl"
+                    className="font-bold text-3xl"
                   >
                     {tButtons('recoverPass')}
                   </h1>
@@ -93,9 +93,7 @@ export default function ForgotPassModal({ isForgotPassOpen, setIsForgotPassOpen,
                   </div>
                 }
               </ModalHeader>
-              <ModalBody
-                className="gap-4"
-              >
+              <ModalBody className="gap-4">
                 <Input
                   type="email"
                   label={tModals('email')}
@@ -121,8 +119,7 @@ export default function ForgotPassModal({ isForgotPassOpen, setIsForgotPassOpen,
                   {isSuccess ? tSuccess('true') : tButtons('recoverPass')}
                 </Button>
               </ModalBody>
-              <ModalFooter className="flex-col items-center gap-4 mb-4 sm:mb-8">
-              </ModalFooter>
+              <ModalFooter/>
             </div>
           )}
         </ModalContent>

@@ -51,5 +51,11 @@
     "PasswordInvalid": "Invalid Password!",
     "passNotMatch": "Password does not match!",
     "otpInvalid": "Invalid OTP!"
+  },
+  "Label": {
+    "theme": "Theme",
+    "language": "Langauge",
+    "darkMode": "โหมดมืด กำลังทำงาน!",
+    "lightMode": "โหมดสว่าง กำลังทำงาน!"
   }
 }

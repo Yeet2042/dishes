@@ -1,10 +1,11 @@
 'use client'
 import { MagnifyingGlassIcon, ArchiveBoxIcon, SunIcon, MoonIcon } from '@heroicons/react/24/solid'
-import { Button, Navbar as NextNavbar, NavbarBrand, NavbarContent, NavbarItem, Input, Link, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Image} from '@nextui-org/react'
+import { Button, Navbar as NextNavbar, NavbarBrand, NavbarContent, NavbarItem, Input} from '@nextui-org/react'
 import {useTheme} from "next-themes"
 import React, { useState, useEffect } from 'react'
 import LangSelector from '../buttons/LangSelector'
 import ModalTrigger from '../buttons/ModalTrigger'
+import MenuButton from '../buttons/MenuButton'
 
 type Props = {}
 
@@ -20,8 +21,9 @@ export default function Navbar({}: Props) {
   return (
     <NextNavbar>
       <NavbarBrand className='gap-3 sm:gap-8'>
+        <MenuButton/>
         <p className="font-bold text-inherit">DISHES</p>
-        <div className='flex items-center gap-3'>
+        <div className='hidden sm:flex items-center gap-3'>
           <Button
             isIconOnly
             variant='light'

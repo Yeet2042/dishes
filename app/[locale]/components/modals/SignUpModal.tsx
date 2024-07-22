@@ -103,77 +103,79 @@ export default function SignUpModal({ isSignUpOpen, setIsSignUpOpen, setIsOTPOpe
       >
         <ModalContent>
           {(onclose) => (
-            <div className="mx-4">
-              <ModalHeader className="flex-col my-4 sm:my-8 md:my-4">
+            <div className="flex flex-col mx-4 my-6 gap-4">
+              <ModalHeader className="flex-col gap-1">
                 <h1
-                  className="font-bold text-2xl sm:text-3xl md:text-2xl"
+                  className="font-bold text-3xl"
                 >
                   {tButtons('signUp')}
                 </h1>
                 <p className="text-sm font-normal">{tModals('titleSignUp')}</p>
               </ModalHeader>
-              <ModalBody
-                className="gap-4 md:gap-2"
-              >
-                <Input
-                  type="text"
-                  label={tModals('username')}
-                  variant="bordered"
-                  labelPlacement="outside"
-                  placeholder="Example007"
-                  startContent={
-                    <UserIcon className="w-5 h-5"/>
-                  }
-                  isInvalid={isUsernameUsed ? true : false}
-                  errorMessage={tError('usernameExited')}
-                  value={username}
-                  onValueChange={setUsername}
-                />
-                <Input
-                  type="email"
-                  label={tModals('email')}
-                  variant="bordered"
-                  labelPlacement="outside"
-                  placeholder="example@dishes.com"
-                  startContent={
-                    <EnvelopeIcon className="w-5 h-5"/>
-                  }
-                  isInvalid={isEmailUsed ? true : false}
-                  errorMessage={tError('emailExited')}
-                  value={email}
-                  onValueChange={setEmail}
-                />
-                <Input
-                  type="password"
-                  label={tModals('password')}
-                  variant="bordered"
-                  labelPlacement="outside"
-                  placeholder="••••••••"
-                  startContent={
-                    <LockClosedIcon className="w-5 h-5"/>
-                  }
-                  value={password}
-                  onValueChange={setPassword}
-                />
-                <Input
-                  type="password"
-                  label={tModals('conPassword')}
-                  variant="bordered"
-                  labelPlacement="outside"
-                  placeholder="••••••••"
-                  startContent={
-                    <LockClosedIcon className="w-5 h-5"/>
-                  }
-                  isInvalid={password == conPassword ? false : true}
-                  errorMessage={tError('passNotMatch')}
-                  value={conPassword}
-                  onValueChange={setConPassword}
-                />
+              <ModalBody className="flex flex-col gap-4">
+                <div className="flex flex-col gap-2">
+                  <Input
+                    type="text"
+                    label={tModals('username')}
+                    variant="bordered"
+                    labelPlacement="outside"
+                    placeholder="Example007"
+                    startContent={
+                      <UserIcon className="w-5 h-5"/>
+                    }
+                    isInvalid={isUsernameUsed ? true : false}
+                    errorMessage={tError('usernameExited')}
+                    value={username}
+                    onValueChange={setUsername}
+                  />
+                  <Input
+                    type="email"
+                    label={tModals('email')}
+                    variant="bordered"
+                    labelPlacement="outside"
+                    placeholder="example@dishes.com"
+                    startContent={
+                      <EnvelopeIcon className="w-5 h-5"/>
+                    }
+                    isInvalid={isEmailUsed ? true : false}
+                    errorMessage={tError('emailExited')}
+                    value={email}
+                    onValueChange={setEmail}
+                  />
+                  <Input
+                    type="password"
+                    label={tModals('password')}
+                    variant="bordered"
+                    labelPlacement="outside"
+                    placeholder="••••••••"
+                    startContent={
+                      <LockClosedIcon className="w-5 h-5"/>
+                    }
+                    isInvalid={password == conPassword ? false : true}
+                    errorMessage={tError('passNotMatch')}
+                    value={password}
+                    onValueChange={setPassword}
+                  />
+                  <Input
+                    type="password"
+                    label={tModals('conPassword')}
+                    variant="bordered"
+                    labelPlacement="outside"
+                    placeholder="••••••••"
+                    startContent={
+                      <LockClosedIcon className="w-5 h-5"/>
+                    }
+                    isInvalid={password == conPassword ? false : true}
+                    errorMessage={tError('passNotMatch')}
+                    value={conPassword}
+                    onValueChange={setConPassword}
+                  />
+                </div>
                 <Checkbox
                   isSelected={agreeTerms}
                   onValueChange={setAgreeTerms}
                 >
-                  <p className="text-sm sm:text-base">{tModals('agreeWith')} <Link className="text-xs sm:text-base" onPress={() => setIsTermsOpen(true)}>{tTerms('terms')}</Link></p>
+                  <p className="text-sm sm:text-base">{tModals('agreeWith')} <Link className="text-sm sm:text-base" onPress={() => setIsTermsOpen(true)}>{tTerms('terms')}</Link></p>
                 </Checkbox>
                 <Button
                   className="p-5"
@@ -186,11 +188,11 @@ export default function SignUpModal({ isSignUpOpen, setIsSignUpOpen, setIsOTPOpe
                   {isSuccess ? tSuccess('true') : tButtons('register')}
                 </Button>
                 <div className="flex justify-center gap-1">
-                  <p className="text-xs sm:text-base">
+                  <p className="text-sm sm:text-base">
                     {tModals('alreadyAcc')}
                   </p>
                   <Link
-                    className="text-xs sm:text-base"
+                    className="text-sm sm:text-base"
                     onPress={() => {
                       setIsSignUpOpen(false)
                       setIsSignInOpen(true)
@@ -200,7 +202,7 @@ export default function SignUpModal({ isSignUpOpen, setIsSignUpOpen, setIsOTPOpe
                   </Link>
                 </div>
               </ModalBody>
-              <ModalFooter className="flex-col items-center gap-4 mb-4 sm:mb-8">
+              <ModalFooter className="flex-col items-center gap-4">
                 <div className="flex items-center w-full">
                   <div className="border border-default-400 w-full h-px"></div>
                   <div className="px-2">{tModals('or')}</div>

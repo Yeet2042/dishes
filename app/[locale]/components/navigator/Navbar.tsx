@@ -4,7 +4,7 @@ import { Button, Navbar as NextNavbar, NavbarBrand, NavbarContent, NavbarItem, I
 import {useTheme} from "next-themes"
 import React, { useState, useEffect } from 'react'
 import LangSelector from '../buttons/LangSelector'
-import SignUpButton from '../buttons/SignUpButton'
+import ModalTrigger from '../buttons/ModalTrigger'
 
 type Props = {}
 
@@ -60,7 +60,7 @@ export default function Navbar({}: Props) {
           </Button>
         </NavbarItem>
         <NavbarItem>
-          <SignUpButton/>
+          <ModalTrigger/>
         </NavbarItem>
       </NavbarContent>
     </NextNavbar>

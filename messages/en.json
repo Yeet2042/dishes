@@ -8,24 +8,37 @@
     "register": "Register",
     "logIn": "Log In",
     "submit": "Submit",
-    "requestAgain": "Request again"
+    "requestAgain": "Request again",
+    "recoverPass": "Recover Password"
   },
   "Modals": {
     "headerOTP": "OTP Verification",
     "titleSignUp": "Sign up to access Dishes!",
     "titleSignIn": "Sign in to access Dishes!",
     "titleOTP": "We've sent a verification code to your email -",
+    "titleRecoverPass": "Provide the email address associated with your account to recover your password",
+    "titleRecoverPassSuccess": "We've sent a recover password link to your email -",
     "username": "Username",
     "email": "Email",
     "password": "Password",
     "conPassword": "Confirm Password",
     "agreeWith": "Agree with",
-    "terms": "Terms & Condition",
     "alreadyAcc": "Already have an account?",
     "nothaveAcc": "Does not have an account?",
     "or": "or",
     "forgotPass": "Forgot Password?",
     "notHaveCode": "Did not receive code?"
+  },
+  "Terms": {
+    "terms": "Terms & Condition",
+    "title": "Please read these terms and conditions terms and conditions carefully before using www.dishes.com website operated by Dishes.",
+    "header1": "Conditions of use",
+    "header2": "Privacy policy",
+    "header3": "User accounts",
+    "param1": "By using this website, you certify that you have read and reviewed this Agreement and that you agree to comply with its terms. If you do not want to be bound by the terms of this Agreement, you are advised to stop using the website accordingly. Dishes only grants use and access of this website, its products, and its services to those who have accepted its terms.",
+    "param2": "Before you continue using our website, we advise you to read our privacy policy regarding our user data collection. It will help you better understand our ractices.",
+    "param3": "As a user of this website, you may be asked to register with us and provide private information. You are responsible for ensuring the accuracy of this information, and you are responsible for maintaining the safety and security of your identifying information.",
+    "param4": "You are also responsible for all activities that occur under your account or password. If you think there are any possible issues regarding the security of your account on the website, inform us immediately so we may address them accordingly. We reserve all rights to terminate accounts, edit or remove content and cancel orders at our sole discretion."
   },
   "Success": {
     "true": "Success! 🎉",

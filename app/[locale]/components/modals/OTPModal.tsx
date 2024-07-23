@@ -2,7 +2,7 @@ import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input,
 import axios, { AxiosError } from "axios"
 import { useTranslations } from "next-intl"
 import React, { useEffect, useState } from 'react'
-import Confetti from "../particles/Confetti"
+import Confetti from "../canvas/Confetti"
 
 type Props = {
   isOTPOpen: boolean,

@@ -1,6 +1,8 @@
 {
   "HomePage": {
-    "title": "Hello world!"
+    "header1": "Discover",
+    "header2": "The Recipes You Love",
+    "header3": "Every Menu From Us!"
   },
   "Buttons": {
     "signUp": "Sign Up",

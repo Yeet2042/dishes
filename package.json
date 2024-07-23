@@ -11,8 +11,12 @@
   "dependencies": {
     "@heroicons/react": "^2.1.5",
     "@nextui-org/react": "^2.4.3",
+    "@types/dom-to-image": "^2.6.7",
+    "@types/react-stars": "^2.2.4",
     "axios": "^1.7.2",
     "canvas-confetti": "^1.9.3",
+    "dom-to-image": "^2.6.0",
+    "dom-to-image-more": "^3.3.0",
     "framer-motion": "^11.3.7",
     "i18next": "^23.12.2",
     "next": "14.2.5",
@@ -24,6 +28,7 @@
     "react-dom": "^18",
     "react-i18next": "^15.0.0",
     "react-icon-cloud": "^4.1.4",
+    "react-stars": "^2.2.5",
     "simple-icons": "^13.2.0"
   },
   "devDependencies": {

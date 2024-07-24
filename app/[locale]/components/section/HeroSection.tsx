@@ -11,7 +11,7 @@ export default function HeroSection({}: Props) {
   return (
     <section
       id='hero'
-      className='conatiner w-full h-screen overflow-hidden bg-background'
+      className='conatiner relative w-full h-screen overflow-hidden z-10'
     >
       <div className='flex h-full mt-16'>
         <div className='w-1/2'>

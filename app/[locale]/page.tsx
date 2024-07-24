@@ -1,20 +1,19 @@
 import React from 'react'
 import HeroSection from './components/section/HeroSection'
-import BestSection from './components/section/BestSection'
+import BestRecipesSection from './components/section/BestRecipesSection'
+import BestAuthorSection from './components/section/BestAuthorSection'
 
 type Props = {}
 
 export default function Page({}: Props) {
   return (
     <>
-      <div>
+      <div className='relative bg-background'>
         <HeroSection/>
-        <BestSection/>
+        <BestAuthorSection/>
+        <BestRecipesSection/>
         <div
-          className='absolute bg-primary rounded-full size-[500px] top-[300px] right-[250px] blur-3xl opacity-10'
-        />
-        <div
-          className='absolute bg-primary rounded-full size-[1000px] bottom-[-500px] left-[-200px] blur-3xl opacity-10'
+          className='absolute z-0 bg-primary rounded-full size-[1000px] bottom-[-500px] left-[-200px] blur-3xl opacity-10'
         />
       </div>
     </>

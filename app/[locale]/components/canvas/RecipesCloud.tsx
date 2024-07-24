@@ -68,7 +68,7 @@ export default function RecipesCloud({}: Props) {
   }, [refs])
 
   return (
-    <div className="relative p-20">
+    <div className="relative p-20 bg-background">
       <div className="absolute top-0 left-0">
         {mockRecipes.map((recipe, index) => (
           <Card
@@ -107,7 +107,10 @@ export default function RecipesCloud({}: Props) {
         ))}
       </div>
       {imageUrls &&
-        <div className="">
+        <div className="relative z-0">
+          <div
+            className='absolute bg-primary rounded-full size-[500px] top-[150px] right-[150px] blur-3xl opacity-10'
+          />
           <Cloud {...CloudProps}>
             {imageUrls.map((src, index) => (
               <a key={index} href="">

@@ -19,7 +19,7 @@ export default function Navbar({}: Props) {
 
   if(!mounted) return null
   return (
-    <NextNavbar className="fixed top-0 left-0 right-0 z-50 shadow-xl">
+    <NextNavbar maxWidth='xl' className="fixed top-0 left-0 right-0 z-50 shadow-xl">
       <NavbarBrand className='gap-3 sm:gap-8'>
         <MenuButton/>
         <p className="font-bold text-inherit">DISHES</p>

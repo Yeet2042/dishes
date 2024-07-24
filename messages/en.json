@@ -2,7 +2,9 @@
   "HomePage": {
     "header1": "Discover",
     "header2": "The Recipes You Love",
-    "header3": "Every Menu From Us!"
+    "header3": "Every Menu From Us!",
+    "totalRecipes": "Total Recipes",
+    "totalAuthor": "Total Author"
   },
   "Buttons": {
     "signUp": "Sign Up",

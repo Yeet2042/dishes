@@ -68,51 +68,46 @@ export default function RecipesCloud({}: Props) {
   }, [refs])
 
   return (
-    <div className="w-screen h-screen">
-      {mockRecipes.map((recipe, index) => (
-        <Card
-          ref={addRef}
-          id={`card-${index}`}
-          key={index}
-          className='border-none shadow-none bg-black w-80 pr-10 bg-opacity-30'
-          style={{
-            zIndex: '-1'
-          }}
-        >
-          <CardBody>
-            <div className='flex gap-3'>
-              <img
-                alt={recipe.alt}
-                src={recipe.src}
-                width={100}
-                height={100}
-                className="rounded-xl"
-              />
-              <div className='flex flex-col justify-center'>
-                <h2 className="text-2xl font-bold">{recipe.title}</h2>
-                <p>{recipe.author}</p>
-                <div className='flex items-center gap-2'>
-                  <ReactStars
-                    value={5}
-                    count={5}
-                    size={24}
-                  />
-                  <p>{recipe.star}</p>
+    <div className="relative p-20">
+      <div className="absolute top-0 left-0">
+        {mockRecipes.map((recipe, index) => (
+          <Card
+            ref={addRef}
+            id={`card-${index}`}
+            key={index}
+            className='border-none shadow-none bg-black w-80 pr-10 bg-opacity-30'
+            style={{
+              zIndex: '-9999'
+            }}
+          >
+            <CardBody>
+              <div className='flex gap-3'>
+                <img
+                  alt={recipe.alt}
+                  src={recipe.src}
+                  width={100}
+                  height={100}
+                  className="rounded-xl"
+                />
+                <div className='flex flex-col justify-center'>
+                  <h2 className="text-2xl font-bold">{recipe.title}</h2>
+                  <p>{recipe.author}</p>
+                  <div className='flex items-center gap-2'>
+                    <ReactStars
+                      value={5}
+                      count={5}
+                      size={24}
+                    />
+                    <p>{recipe.star}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          </CardBody>
-        </Card>
-      ))}
-      {/* {imageUrls && imageUrls.map((src, index) => (
-        <img
-          key={index}
-          src={src}
-          alt={index}
-        />
-      ))} */}
+            </CardBody>
+          </Card>
+        ))}
+      </div>
       {imageUrls &&
-        <div className="absolute top-40 right-32">
+        <div className="">
           <Cloud {...CloudProps}>
             {imageUrls.map((src, index) => (
               <a key={index} href="">

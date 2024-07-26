@@ -1,25 +1,44 @@
+'use client'
 import { Bars3Icon, XMarkIcon, MoonIcon, SunIcon } from '@heroicons/react/24/solid'
 import { Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Image, DropdownSection} from '@nextui-org/react'
 import { useTranslations } from 'next-intl'
 import {useTheme} from "next-themes"
 import { useRouter } from 'next/navigation'
-import React, { useState, useMemo } from 'react'
+import React, { useEffect, useState } from 'react'
 
 type Props = {}
 
 export default function MenuButton({}: Props) {
   const router = useRouter()
+  const { theme, setTheme } = useTheme()
 
   const tLabel = useTranslations('Label')
 
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const { theme, setTheme } = useTheme()
+  const [lang, setLang] = useState<Set<string>>(new Set())
+  const [currentTheme, setCurrentTheme] = useState<string | undefined>(undefined)
 
-  const [lang, setLang] = useState<Set<string>>(new Set([`${document.documentElement.lang}`]))
+  const handleSelectionChange = (keys: any) => {
+    const selectedSet = new Set<string>(keys);
+    setLang(selectedSet);
+  }
+
+  useEffect(() => {
+    setLang(new Set([`${document.documentElement.lang}`]));
+    setCurrentTheme(theme)
+  }, [theme])
+
+  if (!currentTheme) {
+    return null
+  }
 
   return (
     <>
-      <Dropdown offset={10} isOpen={isMenuOpen} onOpenChange={setIsMenuOpen}>
+      <Dropdown
+        offset={10}
+        isOpen={isMenuOpen}
+        onOpenChange={setIsMenuOpen}
+      >
         <DropdownTrigger className="flex sm:hidden">
           <Button
             isIconOnly
@@ -33,7 +52,7 @@ export default function MenuButton({}: Props) {
           disallowEmptySelection
           selectionMode="single"
           selectedKeys={lang}
-          onSelectionChange={setLang}
+          onSelectionChange={handleSelectionChange}
         >
           <DropdownSection title={tLabel('theme')} showDivider>
             <DropdownItem

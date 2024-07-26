@@ -1,36 +1,21 @@
-'use client'
-import { MagnifyingGlassIcon, ArchiveBoxIcon, SunIcon, MoonIcon } from '@heroicons/react/24/solid'
+import { MagnifyingGlassIcon, ArchiveBoxIcon } from '@heroicons/react/24/solid'
 import { Button, Navbar as NextNavbar, NavbarBrand, NavbarContent, NavbarItem, Input} from '@nextui-org/react'
-import {useTheme} from "next-themes"
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import LangSelector from '../buttons/LangSelector'
 import ModalTrigger from '../buttons/ModalTrigger'
 import MenuButton from '../buttons/MenuButton'
+import ThemeSelector from '../buttons/ThemeSelector'
 
 type Props = {}
 
 export default function Navbar({}: Props) {
-  const [mounted, setMounted] = useState(false)
-  const { theme, setTheme } = useTheme()
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  if(!mounted) return null
   return (
     <NextNavbar maxWidth='xl' className="fixed top-0 left-0 right-0 z-50 shadow-xl">
       <NavbarBrand className='gap-3 sm:gap-8'>
         <MenuButton/>
         <p className="font-bold text-inherit">DISHES</p>
         <div className='hidden sm:flex items-center gap-3'>
-          <Button
-            isIconOnly
-            variant='light'
-            onPress={() => theme == 'dark' ? setTheme('light') : setTheme('dark')}
-          >
-            {theme == 'dark' ? <MoonIcon className='h-5 w-5'/> : <SunIcon className='h-5 w-5'/>}
-          </Button>
+          <ThemeSelector/>
           <LangSelector/>
         </div>
       </NavbarBrand>
@@ -46,6 +31,9 @@ export default function Navbar({}: Props) {
         justify="end"
         className='gap-1 sm:gap-4'
       >
+        <NavbarItem>
+          <ModalTrigger/>
+        </NavbarItem>
         <NavbarItem className='flex'>
           <Button
             isIconOnly
@@ -60,9 +48,6 @@ export default function Navbar({}: Props) {
           >
             <ArchiveBoxIcon className='w-5 h-5'/>
           </Button>
-        </NavbarItem>
-        <NavbarItem>
-          <ModalTrigger/>
         </NavbarItem>
       </NavbarContent>
     </NextNavbar>

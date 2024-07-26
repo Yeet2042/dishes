@@ -1,17 +1,28 @@
+'use client'
 import { Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Image} from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 
 type Props = {}
 
 export default function LangSelector({}: Props) {
   const router = useRouter()
-  const [lang, setLang] = useState<Set<string>>(new Set([`${document.documentElement.lang}`]))
+  const [lang, setLang] = useState<Set<string>>(new Set())
 
   const selectedValue = useMemo(
     () => Array.from(lang).join(", ").replaceAll("_", " "),
     [lang]
   )
+
+  const handleSelectionChange = (keys: any) => {
+    const selectedSet = new Set<string>(keys);
+    setLang(selectedSet);
+  }
+
+  useEffect(() => {
+    setLang(new Set([`${document.documentElement.lang}`]));
+  }, [])
+
   return (
     <>
       <Dropdown showArrow offset={10}>
@@ -24,7 +35,7 @@ export default function LangSelector({}: Props) {
               <Image
                 width={25}
                 radius='none'
-                alt='lang'
+                alt='th'
                 src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Flag_of_Thailand.svg"
               />
             </Button>
@@ -36,7 +47,7 @@ export default function LangSelector({}: Props) {
               <Image
                 width={25}
                 radius='none'
-                alt='lang'
+                alt='en'
                 src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg"
               />
             </Button>
@@ -47,7 +58,7 @@ export default function LangSelector({}: Props) {
           disallowEmptySelection
           selectionMode="single"
           selectedKeys={lang}
-          onSelectionChange={setLang}
+          onSelectionChange={handleSelectionChange}
         >
           <DropdownItem
             key="th"
